@@ -33,5 +33,6 @@ router.put('/document/:id', documentController.update);
 router.delete('/document/:id', documentController.drop);
 
 router.get('/collect', collectController.index);
+router.get('/collect/test', collectController.test);
 
 module.exports = router;

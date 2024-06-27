@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 const index = async (req, res) => {
     try {
         const get = await prisma.document.findMany({
-            include: { transaction: true }
+            include: { transaction: false }
         });
         res.json(get);
     } catch (error) {

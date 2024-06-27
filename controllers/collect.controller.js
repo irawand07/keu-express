@@ -11,7 +11,6 @@ const sheets = google.sheets({ version: 'v4', auth });
 
 const index = async (req, res) => {
     let result = [];
-    let bulkInsert = [];
     try {
 
         // #1 Data document
@@ -32,6 +31,10 @@ const index = async (req, res) => {
                 let lastDate = new Date();
                 let data;
 
+                if (!response.data.values) {
+                    return [];
+                }
+
                 if(range.includes('Transaksi')){
                     const rows = response.data.values.filter((item) => item[5] !== undefined && item[5] !== '');
                     data = rows.map((item) => {
@@ -49,7 +52,7 @@ const index = async (req, res) => {
                 }else{
                     lastDate = doc.year + '-' + ((index+1) < 10 ? '0'+ (index+1) : (index+1)) + '-01'
                     lastDate = new Date(lastDate);
-                    const rows = response.data.values.filter((item) => item[3] !== undefined && item[3] !== '');
+                    const rows = response.data.values.filter((item) => item[3] !== undefined && item[3].trim() !== '');
                     data = rows.map((item) => {
                         if(!isNaN(new Date(item[1]))){
                             lastDate = new Date(item[1]);
@@ -92,6 +95,18 @@ const index = async (req, res) => {
     }
 };
 
+const test = async (req, res) => {
+    try {
+        const spreadsheetId = 'wLRUH9sjSsB8QQr6BkgPHUMUXTrbnE-9XT_m-80ATDk';
+        const range = 'Januari!H6:I';
+        const response = await sheets.spreadsheets.values.get({ spreadsheetId, range });
+        res.json(response);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 module.exports = {
-    index
+    index,
+    test
 };
