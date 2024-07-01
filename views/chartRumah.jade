@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  script(src='https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js')
+
+  h1= title + ' ' + tahun
+  p(style='margin-botton: 25px')
+
+  div#main(style='height: 400px;')
+
+  p(style='margin: 60px')
+
+  div#main-pie(style='height: 400px;')
+
+  script.
+    // Fetch data from the API
+    fetch('/report/rumah/#{tahun}')
+      .then(response => response.json())
+      .then(data => {
+        // Initialize the chart
+        var myChart = echarts.init(document.getElementById('main'));
+        var myChartPie = echarts.init(document.getElementById('main-pie'));
+
+        // Use the specified configuration to display the chart
+        myChart.setOption(data.line);
+        myChartPie.setOption(data.pie);
+      })
+      .catch(error => console.error('Error fetching data:', error));

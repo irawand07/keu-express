@@ -19,6 +19,9 @@ router.get('/info', (req, res) => {
 router.get('/chart/keuangan/:id', function(req, res, next) {
   res.render('chartKeuangan', { title: 'Report', tahun: req.params.id });
 });
+router.get('/chart/rumah/:id', function(req, res, next) {
+  res.render('chartRumah', { title: 'Report', tahun: req.params.id });
+});
 
 router.get('/transaction', transactionController.index);
 router.get('/transaction/:id', transactionController.show);
@@ -42,6 +45,7 @@ router.get('/collect', collectController.index);
 router.get('/collect/test', collectController.test);
 
 router.get('/report/keuangan/:id', reportController.index);
+router.get('/report/rumah/:id', reportController.rumah);
 
 
 module.exports = router;
