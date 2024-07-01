@@ -4,6 +4,7 @@ const transactionController = require('../controllers/transaction.controller');
 const userController = require('../controllers/user.controller');
 const collectController = require('../controllers/collect.controller');
 const documentController = require('../controllers/document.controller');
+const reportController = require('../controllers/report.controller');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -13,6 +14,11 @@ router.get('/', function(req, res, next) {
 router.get('/info', (req, res) => {
   res.send('Hello World!')
 })
+
+// report
+router.get('/chart/keuangan/:id', function(req, res, next) {
+  res.render('chartKeuangan', { title: 'Report', tahun: req.params.id });
+});
 
 router.get('/transaction', transactionController.index);
 router.get('/transaction/:id', transactionController.show);
@@ -34,5 +40,8 @@ router.delete('/document/:id', documentController.drop);
 
 router.get('/collect', collectController.index);
 router.get('/collect/test', collectController.test);
+
+router.get('/report/keuangan/:id', reportController.index);
+
 
 module.exports = router;
